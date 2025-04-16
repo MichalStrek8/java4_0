@@ -5,3 +5,10 @@ Janusz 40
 Krzysztof 20
 Janusz 40
 jan 40
+adam 29
+adam 19
+jan 33
+kamil 33
+adam 14
+adam 22
+kamil 23
