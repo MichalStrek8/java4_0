@@ -6,49 +6,69 @@ Kod bazowy programu Commit4_0:
 • Klasa Service obsługuje odczyt i zapis do pliku bazy danych.
 • Klasa Student reprezentuje pojedynczego studenta (Imię, Wiek).
 */
-
 import java.io.IOException;
 import java.util.Scanner;
 
-class Main {
+public class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
-      Scanner scanner = new Scanner(System.in);  
+      Scanner scanner = new Scanner(System.in);
+      boolean running = true;
 
-      
-      System.out.println("Podaj imię studenta: ");
-      String name = scanner.nextLine();  
+      while (running) {
+        System.out.println("\nWybierz opcję:");
+        System.out.println("1 – Dodaj studenta");
+        System.out.println("2 – Wyświetl listę studentów");
+        System.out.println("3 – Zakończ program");
+        System.out.print("Twój wybór: ");
+        String choice = scanner.nextLine().trim();
 
-      System.out.println("Podaj wiek studenta: ");
-      int age = scanner.nextInt();  
+        switch (choice) {
+          case "1":
+            System.out.print("Podaj imię studenta: ");
+            String name = scanner.nextLine();
 
-      
-      Student newStudent = new Student(name, age);
-      s.addStudent(newStudent);
+            System.out.print("Podaj nazwisko studenta: ");
+            String surname = scanner.nextLine();
 
-      
-      System.out.println("Dodany student:");
-      System.out.println(newStudent.ToString());
+            System.out.print("Podaj wiek studenta: ");
+            int age = Integer.parseInt(scanner.nextLine());
 
-      
-      scanner.nextLine();  
-      System.out.println("Czy chcesz zobaczyć wszystkich studentów? (tak/nie): ");
-      String response = scanner.nextLine();
+            Student newStudent = new Student(name, surname, age);
+            s.addStudent(newStudent);
 
-      
-      if (response.equalsIgnoreCase("tak")) {
-        System.out.println("Wszyscy studenci:");
-        var students = s.getStudents();
-        for (Student current : students) {
-          System.out.println(current.ToString());
+            System.out.println("Dodano studenta:");
+            System.out.println(newStudent.ToString());
+            break;
+
+          case "2":
+            var students = s.getStudents();
+            if (students.isEmpty()) {
+              System.out.println("Brak studentów.");
+            } else {
+              System.out.println("Lista studentów:");
+              int i = 1;
+              for (Student student : students) {
+                System.out.println(i + ". " + student.ToString());
+                i++;
+              }
+            }
+            break;
+
+          case "3":
+            System.out.println("Zakończono program.");
+            running = false;
+            break;
+
+          default:
+            System.out.println("Nieprawidłowa opcja, spróbuj ponownie.");
         }
-      } else {
-        System.out.println("Program zakończony.");
       }
 
+      scanner.close();
     } catch (IOException e) {
-      e.printStackTrace();  
+      e.printStackTrace();
     }
   }
 }
