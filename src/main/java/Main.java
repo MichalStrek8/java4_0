@@ -20,7 +20,8 @@ public class Main {
         System.out.println("\nWybierz opcję:");
         System.out.println("1 – Dodaj studenta");
         System.out.println("2 – Wyświetl listę studentów");
-        System.out.println("3 – Zakończ program");
+        System.out.println("3 – Znajdź studenta po imieniu");
+        System.out.println("4 – Zakończ program");
         System.out.print("Twój wybór: ");
         String choice = scanner.nextLine().trim();
 
@@ -82,6 +83,18 @@ public class Main {
             break;
 
           case "3":
+            System.out.print("Podaj imię studenta do wyszukania: ");
+            String searchName = scanner.nextLine();
+
+            Student foundStudent = s.findStudentByName(searchName);
+            if (foundStudent != null) {
+              System.out.println("Znaleziono studenta: " + foundStudent.ToString());
+            } else {
+              System.out.println("Student o podanym imieniu nie został znaleziony.");
+            }
+            break;
+
+          case "4":
             System.out.println("Zakończono program.");
             running = false;
             break;
