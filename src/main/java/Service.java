@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Service {
 
-  // Metoda dodająca studenta do pliku
+  
   public void addStudent(Student student) throws IOException {
     FileWriter f = new FileWriter("db.txt", true);
     BufferedWriter b = new BufferedWriter(f);
@@ -12,7 +12,7 @@ public class Service {
     b.close();
   }
 
-  // Metoda do pobierania listy studentów z pliku
+  
   public List<Student> getStudents() throws IOException {
     List<Student> students = new ArrayList<>();
     FileReader f = new FileReader("db.txt");
@@ -28,20 +28,43 @@ public class Service {
     return students;
   }
 
-  // Metoda do wyszukiwania studenta po imieniu
+  
   public Student findStudentByName(String name) throws IOException {
-    // Pobieramy listę studentów
     List<Student> students = getStudents();
-
-    // Przechodzimy przez listę studentów
     for (Student student : students) {
-      // Porównujemy imię studenta z podanym imieniem (ignorujemy wielkość liter)
       if (student.GetName().equalsIgnoreCase(name)) {
-        return student; // Zwracamy pierwszego znalezionego studenta
+        return student;
+      }
+    }
+    return null;
+  }
+
+  
+  public boolean removeStudentByNameAndSurname(String name, String surname) throws IOException {
+    List<Student> students = getStudents();
+    boolean found = false;
+    List<Student> updatedList = new ArrayList<>();
+
+    
+    for (Student student : students) {
+      if (student.GetName().equalsIgnoreCase(name) && student.GetSurname().equalsIgnoreCase(surname)) {
+        found = true;
+      } else {
+        updatedList.add(student);
       }
     }
 
-    // Jeśli nie znaleziono studenta o podanym imieniu, zwracamy null
-    return null;
+    
+    if (found) {
+      FileWriter f = new FileWriter("db.txt");
+      BufferedWriter writer = new BufferedWriter(f);
+      for (Student student : updatedList) {
+        writer.write(student.GetName() + " " + student.GetSurname() + " " + student.GetAge() + " " + student.GetBirthDate());
+        writer.newLine();
+      }
+      writer.close();
+    }
+
+    return found;
   }
 }
